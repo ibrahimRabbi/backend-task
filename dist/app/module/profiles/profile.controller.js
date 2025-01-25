@@ -9,20 +9,35 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getSingleUserController = void 0;
+exports.getProfiles = exports.createProfile = void 0;
 const profile_model_1 = require("./profile.model");
-const getSingleUserController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const createProfile = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const getUser = yield profile_model_1.profileModel.findById(req.params.id);
+        const profiles = yield profile_model_1.profileModel.create(req.body);
         res.status(200).json({
             success: true,
             status: 200,
-            message: 'user retrive successfully',
-            response: getUser
+            message: 'profile created successfully',
+            response: profiles
         });
     }
-    catch (err) {
-        next(err);
+    catch (error) {
+        next(error);
     }
 });
-exports.getSingleUserController = getSingleUserController;
+exports.createProfile = createProfile;
+const getProfiles = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const profiles = yield profile_model_1.profileModel.findById(req.params.id);
+        res.status(200).json({
+            success: true,
+            status: 200,
+            message: 'profile retrive successfully',
+            response: profiles
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+});
+exports.getProfiles = getProfiles;

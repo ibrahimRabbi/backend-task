@@ -8,7 +8,12 @@ import { profileModel } from "../profiles/profile.model";
 export const InsertUserController = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const insertUserInDd = await insertUserservice(req.body)
-        res.status(200).json({ success: true, status: 200, response: insertUserInDd })
+        res.status(200).json({
+            success: true,
+            status: 200,
+            message: 'user created successfully',
+            response: insertUserInDd
+        })
     } catch (err: any) {
         next(err)
     }

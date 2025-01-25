@@ -19,10 +19,12 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const globalError_1 = require("./app/middleware/globalError");
 const user_route_1 = require("./app/module/users/user.route");
 const notFound_1 = __importDefault(require("./app/middleware/notFound"));
+const profile_route_1 = require("./app/module/profiles/profile.route");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use('/user', user_route_1.userRoute);
+app.use('/profile', profile_route_1.profileRoute);
 app.use(notFound_1.default);
 app.use(globalError_1.globalError);
 function main() {

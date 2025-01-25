@@ -6,6 +6,7 @@ import mongoose from 'mongoose'
 import { globalError } from './app/middleware/globalError';
 import { userRoute } from './app/module/users/user.route';
 import notFounds from './app/middleware/notFound';
+import { profileRoute } from './app/module/profiles/profile.route';
 
 
 const app = express();
@@ -16,7 +17,8 @@ app.use(express.json());
 
 
 
-app.use('/user',  userRoute)
+app.use('/user', userRoute)
+app.use('/profile',profileRoute)
 
 
 

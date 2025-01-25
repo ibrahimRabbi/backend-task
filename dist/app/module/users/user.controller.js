@@ -18,7 +18,12 @@ const user_model_1 = require("./user.model");
 const InsertUserController = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const insertUserInDd = yield (0, user_services_1.default)(req.body);
-        res.status(200).json({ success: true, status: 200, response: insertUserInDd });
+        res.status(200).json({
+            success: true,
+            status: 200,
+            message: 'user created successfully',
+            response: insertUserInDd
+        });
     }
     catch (err) {
         next(err);

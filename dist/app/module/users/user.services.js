@@ -30,10 +30,10 @@ const insertUserservice = (data) => __awaiter(void 0, void 0, void 0, function* 
             password: data.password,
             profile: insertToProfile[0]._id
         };
-        const insertToDd = yield user_model_1.userModel.create([userData], { new: true, session: session });
+        const createUser = yield user_model_1.userModel.create([userData], { new: true, session: session });
         yield session.commitTransaction();
         yield session.endSession();
-        return insertToProfile;
+        return createUser;
     }
     catch (err) {
         yield session.abortTransaction();

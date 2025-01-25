@@ -28,11 +28,11 @@ const insertUserservice = async (data:Tuser) => {
         }
 
 
-        const insertToDd = await userModel.create([userData], { new: true, session: session });
+        const createUser = await userModel.create([userData], { new: true, session: session });
         
         await session.commitTransaction()
         await session.endSession()
-        return insertToProfile
+        return createUser
 
     }catch(err:any){
         await session.abortTransaction()
