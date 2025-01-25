@@ -1,7 +1,9 @@
 import { Router } from "express";
-import { InsertUserController } from "./user.controller";
+import { getSingleUserController, InsertUserController } from "./user.controller";
 
 
 export const userRoute = Router()
 
-userRoute.post('/',InsertUserController)
+userRoute.post('/', InsertUserController)
+
+userRoute.get('/:id', getSingleUserController)

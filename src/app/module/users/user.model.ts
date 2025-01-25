@@ -6,7 +6,8 @@ import bcrypt from 'bcrypt'
 const userSchema = new Schema<Tuser>({
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true, trim: true },
-    password: { type: String, required: true, minlength: 8 }
+    password: { type: String, required: true, minlength: 8 },
+    profile: { type: Schema.Types.ObjectId, required: true, ref: 'profile', unique: true },
 }, { timestamps: true })
 
 

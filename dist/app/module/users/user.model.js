@@ -18,7 +18,8 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 const userSchema = new mongoose_1.Schema({
     username: { type: String, required: true },
     email: { type: String, required: true, unique: true, trim: true },
-    password: { type: String, required: true, minlength: 8 }
+    password: { type: String, required: true, minlength: 8 },
+    profile: { type: mongoose_1.Schema.Types.ObjectId, required: true, ref: 'profile', unique: true },
 }, { timestamps: true });
 userSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
