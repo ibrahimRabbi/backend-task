@@ -8,15 +8,37 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = __importDefault(require("mongoose"));
 const user_model_1 = require("./user.model");
+const profile_model_1 = require("../profiles/profile.model");
 const insertUserservice = (data) => __awaiter(void 0, void 0, void 0, function* () {
-    const userData = {
-        username: data.username,
-        email: data.email,
-        password: data.password
-    };
-    const insertToDd = yield user_model_1.userModel.create(userData);
-    return insertToDd;
+    const session = yield mongoose_1.default.startSession();
+    try {
+        session.startTransaction();
+        const userData = {
+            username: data.username,
+            email: data.email,
+            password: data.password
+        };
+        const insertToDd = yield user_model_1.userModel.create([userData], { new: true, session: session });
+        const profileData = {
+            user: insertToDd[0]._id,
+            bio: data.bio,
+            interests: data.interests
+        };
+        const insertToProfile = yield profile_model_1.profileModel.create([profileData], { new: true, session: session });
+        yield session.commitTransaction();
+        yield session.endSession();
+        return insertToProfile;
+    }
+    catch (err) {
+        yield session.abortTransaction();
+        yield session.endSession();
+        throw new Error(err);
+    }
 });
 exports.default = insertUserservice;

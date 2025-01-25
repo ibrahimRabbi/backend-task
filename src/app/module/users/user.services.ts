@@ -1,16 +1,45 @@
+import mongoose from "mongoose";
 import { Tuser } from "./user.interface";
 import { userModel } from "./user.model";
+import { Tprofile } from "../profiles/profile.interface";
+import { profileModel } from "../profiles/profile.model";
 
  
 const insertUserservice = async (data:Tuser) => {
-    
-    const userData:Tuser = {
-        username: data.username,
-        email: data.email,
-        password: data.password
+    const session = await mongoose.startSession();
+
+    try {
+        session.startTransaction();
+
+        const userData: Tuser = {
+            username: data.username,
+            email: data.email,
+            password: data.password
+        } 
+
+        
+        const insertToDd = await userModel.create([userData], {new:true, session: session });
+      
+        const profileData:Tprofile = {
+            user: insertToDd[0]._id,
+            bio: data.bio as string,
+            interests: data.interests as string[]
+        }
+
+        const insertToProfile = await profileModel.create([profileData], { new: true, session: session });
+        
+        await session.commitTransaction()
+        await session.endSession()
+        return insertToProfile
+        
+    }catch(err:any){
+        await session.abortTransaction()
+        await session.endSession()
+        throw new Error(err)
     }
-    const insertToDd = await userModel.create(userData)
-    return insertToDd
+    
+    
+    
 };
 
 export default insertUserservice;
